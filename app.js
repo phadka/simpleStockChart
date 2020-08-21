@@ -21,7 +21,7 @@ app.post("/back", function(req, res) {
 });
 
 app.post("/", function(req, res) {
-  var request = https.request('https://finnhub.io/api/v1/quote?symbol=' + req.body.symbol + '&token=bspqddnrh5rf33i22k4g', function(response) {
+  var request = https.request('https://finnhub.io/api/v1/quote?symbol=' + req.body.symbol + "", function(response) {
     response.on('data', function(d) {
       var data = JSON.parse(d);
       fs.readFile(__dirname + "/price.html", function(err, file) {
