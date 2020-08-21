@@ -26,7 +26,7 @@ app.post("/", function(req, res) {
       var data = JSON.parse(d);
       fs.readFile(__dirname + "/price.html", function(err, file) {
         res.write(file);
-        var msg = "Price for " + req.body.symbol + " is " + data.c + "$.";
+        var msg = "Price for " + req.body.symbol + " is " + new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'USD' }).format(data.c);
         res.write('<script type="text/javascript">$("#text").html("' + msg + '");</script>');
         res.send();
       });
