@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const https = require('https');
+const fs = require('fs');
 const app = express();
 
 app.use(express.static("public"));
@@ -15,12 +16,20 @@ app.get("/", function(req, res) {
   res.sendFile(__dirname + "/index.html");
 });
 
+app.post("/back", function(req, res) {
+  res.redirect("/");
+});
+
 app.post("/", function(req, res) {
-  console.log(req.body.symbol);
   var request = https.request('https://finnhub.io/api/v1/quote?symbol=' + req.body.symbol + '&token=bspqddnrh5rf33i22k4g', function(response) {
     response.on('data', function(d) {
       var data = JSON.parse(d);
-      res.send("Price for " + req.body.symbol + " is: " + data.c + "$.");
+      fs.readFile(__dirname + "/price.html", function(err, file) {
+        res.write(file);
+        var msg = "Price for " + req.body.symbol + " is " + data.c + "$.";
+        res.write('<script type="text/javascript">$("#text").html("' + msg + '");</script>');
+        res.send();
+      });
     });
   });
   request.on('error', (e) => {
