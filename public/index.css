@@ -5,3 +5,9 @@ body {
 h1 {
   margin: 3%;
 }
+@media (max-width: 840px) {
+  body {
+    margin: 5% 5%;
+    text-align: center;
+  }
+}
