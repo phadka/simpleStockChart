@@ -2,10 +2,18 @@ body {
   margin: 5% 5%;
   text-align: center;
 }
+h1 {
+  font-size: 4rem;
+  margin-bottom: 13%;
+}
 
-/* @media (max-width: 840px) {
+ @media (min-width: 768px) {
   body {
     margin: 5% 5%;
     text-align: center;
   }
-} */
+  h1 {
+    font-size: 4rem;
+    margin-bottom: 3%;
+  }
+}
