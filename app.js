@@ -23,7 +23,7 @@ app.post("/back", function(req, res) {
 app.post("/", function(req, res) {
   let currentTime = Math.floor(new Date().getTime() / 1000);
   let pastTime = currentTime - 30758400;
-  let url = 'https://finnhub.io/api/v1/stock/candle?symbol=' + req.body.symbol + '&resolution=D&from=' + pastTime + '&to=' + currentTime + '&token=bspqddnrh5rf33i22k4g';
+  let url = 'https://finnhub.io/api/v1/stock/candle?symbol=' + req.body.symbol + '&resolution=D&from=' + pastTime + '&to=' + currentTime + '&token=';
   console.log(url);
   let request = https.request(url, function(response) {
     let data = "";
