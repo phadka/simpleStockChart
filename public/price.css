@@ -5,3 +5,7 @@ body {
 button {
   margin-top: 1%;
 }
+.container {
+  margin-top: 3%;
+  width: 90%;
+}

@@ -21,12 +21,24 @@ app.post("/back", function(req, res) {
 });
 
 app.post("/", function(req, res) {
-  var request = https.request('https://finnhub.io/api/v1/quote?symbol=' + req.body.symbol + '&token=bspqddnrh5rf33i22k4g', function(response) {
+  let currentTime = Math.floor(new Date().getTime() / 1000);
+  let pastTime = currentTime - 30758400;
+  let url = 'https://finnhub.io/api/v1/stock/candle?symbol=' + req.body.symbol + '&resolution=D&from=' + pastTime + '&to=' + currentTime + '&token=bspqddnrh5rf33i22k4g';
+  console.log(url);
+  let request = https.request(url, function(response) {
+    let data = "";
     response.on('data', function(d) {
-      var data = JSON.parse(d);
-      var price = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'USD' }).format(data.c);
-      var msg = "Price for " + req.body.symbol + " is " + new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'USD' }).format(data.c);
-      res.render("price", {text: msg});
+      data = data + d;
+    });
+    response.on('end', function() {
+      let finalData = JSON.parse(data);
+      let currentPrice = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'USD' }).format(finalData.c[finalData.c.length - 1]);
+      let msg = "Current price for " + req.body.symbol + " is " + currentPrice + ".";
+      let stockLabels = [];
+      for (let i = 0; i < finalData.c.length; i++) {
+        stockLabels.push(i + "");
+      }
+      res.render("price", {text: msg, stockLabels: stockLabels, stockData: [finalData.c]});
     });
   });
   request.on('error', (e) => {
